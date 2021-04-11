@@ -4,6 +4,7 @@ import Bloglist from './Bloglist';
 
 const Home = () => {
 const [blogs,setBlogs] = useState(null);
+const [isloading,setIsloading] = useState(true);
 
 const [name,setName]=useState('mario');
 
@@ -17,22 +18,28 @@ const [name,setName]=useState('mario');
 
 useEffect( () =>
 {
-  fetch('http://localhost:8000/blogs')
-  .then(res =>
+
+  setTimeout( () =>
   {
-    return res.json();
-  })
-  .then(Data =>
+     fetch('http://localhost:8000/blogs')
+    .then(res =>
     {
+    return res.json();
+    })
+    .then(Data =>
+      {
       console.log(Data);
       setBlogs(Data);
+      setIsloading(false);
     })
+  },1000);
    
  
 },[])
 
     return ( 
         <div className="home">
+          {isloading && <div>Loading...</div>}
       {blogs && <Bloglist blogs={blogs} title="All blogs" /*handledelete={handledelete}*/></Bloglist>}
         <p>home: {name}</p>
         </div>
