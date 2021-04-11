@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import Bloglist from './Bloglist';
 
 
@@ -15,6 +15,11 @@ const handledelete = (id) =>
   setBlogs(newblogs);
 
 }
+
+useEffect( () =>
+{
+  console.log('use effect run');
+})
 
     return ( 
         <div className="home">
