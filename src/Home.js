@@ -7,6 +7,7 @@ const [blogs,setBlogs] = useState(null);
 const [isloading,setIsloading] = useState(true);
 
 const [name,setName]=useState('mario');
+const [errstate,setErrstate]=useState(null);
 
 /*const handledelete = (id) =>
 {
@@ -22,16 +23,27 @@ useEffect( () =>
   setTimeout( () =>
   {
      fetch('http://localhost:8000/blogs')
-    .then(res =>
-    {
-    return res.json();
-    })
-    .then(Data =>
+      .then(res =>
       {
-      console.log(Data);
-      setBlogs(Data);
-      setIsloading(false);
-    })
+        console.log(res);
+        if(!res.ok)
+        {
+          throw Error('could not fetch data for that resource');
+        }
+        return res.json();
+      })
+      .then(Data =>
+      {
+        console.log(Data);
+        setBlogs(Data);
+        setIsloading(false);
+        setErrstate(false);
+      })
+      .catch( err =>{
+        console.log(err.message);
+        setErrstate(err.message); 
+        setIsloading(false);
+      })
   },1000);
    
  
@@ -39,7 +51,9 @@ useEffect( () =>
 
     return ( 
         <div className="home">
+          {errstate && <div>{errstate}</div>}
           {isloading && <div>Loading...</div>}
+          
       {blogs && <Bloglist blogs={blogs} title="All blogs" /*handledelete={handledelete}*/></Bloglist>}
         <p>home: {name}</p>
         </div>
