@@ -9,10 +9,16 @@ const [blogs,setBlogs] = useState([
     { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
 ]);
 
+const handledelete = (id) =>
+{
+  const newblogs=blogs.filter(blogs => blogs.id!==id);
+  setBlogs(newblogs);
+
+}
+
     return ( 
         <div className="home">
-         <Bloglist blogs={blogs} title="All blogs"></Bloglist>
-         <Bloglist blogs={blogs.filter((blog) =>blog.author === 'mario')} title="only marios blogs"></Bloglist>
+         <Bloglist blogs={blogs} title="All blogs" handledelete={handledelete}></Bloglist>
         </div>
      );
 }
